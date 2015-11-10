@@ -7,6 +7,15 @@ avrg <- mean(counts)
 mode <- names(temp)[temp == max(temp)]
 mdn <- median(counts)
 dsp <- var(counts)
-acf(counts)
 
-ggplot(data=stats, aes(x=year, y=count)) + geom_line() + geom_point()
+cat(" Середнє значення:", avrg, "\n",
+    "Мода:", mode, "\n",
+    "Медіана:", mdn, "\n",
+    "Дисперсія:", dsp)
+
+acz <- acf(counts, plot=F)
+ggplot(data.frame(lag=acz$lag, acf=acz$acf), aes(lag, acf)) + 
+  geom_line() + geom_point() + theme_bw() + geom_hline(aes(yintercept=0))
+
+ggplot(data=stats, aes(x=year, y=count)) + geom_line() + geom_point() +
+  ylab("Кількість") + xlab("Рік")
